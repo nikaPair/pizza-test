@@ -32,7 +32,7 @@ export const EmployeeForm: React.FC<EmployeeFormProps> = ({ onClose }) => {
             <div className="form-group">
                 <label htmlFor="phone">Телефон:</label>
                 <MaskedInput
-                    mask="+7 (999) 999-9999"
+                    mask="(999) 999-9999"
                     id="phone"
                     name="phone"
                     value={formData.phone}

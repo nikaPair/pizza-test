@@ -21,18 +21,38 @@ const employeeSlice = createSlice({
             state.employees = action.payload;
         },
         addEmployee: (state, action: PayloadAction<EmployeeFormData>) => {
+            const { name, phone, birthday } = action.payload;
+
+            if (!name || !phone || !birthday) {
+                return;
+            }
+
             const newEmployee: Employee = {
                 ...action.payload,
                 id: Math.max(...state.employees.map((emp) => emp.id), 0) + 1,
+                phone: phone || "",
+                birthday: birthday || "",
             };
+
             state.employees.push(newEmployee);
         },
         updateEmployee: (state, action: PayloadAction<Employee>) => {
-            const index = state.employees.findIndex(
-                (emp) => emp.id === action.payload.id
-            );
+            const { id, name, phone, birthday } = action.payload;
+
+            if (!name || !phone || !birthday) {
+                return;
+            }
+
+            const index = state.employees.findIndex((emp) => emp.id === id);
+
             if (index !== -1) {
-                state.employees[index] = action.payload;
+                const updatedEmployee = {
+                    ...action.payload,
+                    phone: phone || "",
+                    birthday: birthday || "",
+                };
+
+                state.employees[index] = updatedEmployee;
             }
         },
         setLoading: (state, action: PayloadAction<boolean>) => {

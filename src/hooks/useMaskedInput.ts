@@ -3,7 +3,7 @@ import { useState, useEffect, ChangeEvent } from "react";
 interface UseMaskedInputProps {
     mask: string;
     value: string;
-    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    onChange: (value: string) => void;
 }
 
 export const useMaskedInput = ({
@@ -17,57 +17,65 @@ export const useMaskedInput = ({
         setInputValue(value || "");
     }, [value]);
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const val = e.target.value;
+    const applyMask = (value: string): string => {
+        const digits = value.replace(/\D/g, "");
 
-        if (val.length < inputValue.length) {
-            setInputValue(val);
-
-            const syntheticEvent = {
-                ...e,
-                target: {
-                    ...e.target,
-                    value: val,
-                },
-            };
-
-            onChange(syntheticEvent as ChangeEvent<HTMLInputElement>);
-            return;
+        if (digits.length === 0) {
+            const firstDigitPos = mask.indexOf("9");
+            if (firstDigitPos > 0) {
+                return mask.substring(0, firstDigitPos);
+            }
+            return "";
         }
 
-        const rawValue = val.replace(/[^0-9]/g, "");
+        let result = "";
+        let digitIndex = 0;
 
-        let formattedValue = "";
-        let rawIndex = 0;
+        for (let i = 0; i < mask.length; i++) {
+            if (digitIndex >= digits.length && mask[i] === "9") {
+                break;
+            }
 
-        for (let i = 0; i < mask.length && rawIndex < rawValue.length; i++) {
             if (mask[i] === "9") {
-                formattedValue += rawValue[rawIndex];
-                rawIndex++;
+                result += digits[digitIndex];
+                digitIndex++;
             } else {
-                formattedValue += mask[i];
-
-                if (
-                    i + 1 < mask.length &&
-                    mask[i + 1] !== "9" &&
-                    rawIndex < rawValue.length
-                ) {
-                    formattedValue += mask[i + 1];
-                    i++;
-                }
+                result += mask[i];
             }
         }
 
-        const syntheticEvent = {
-            ...e,
-            target: {
-                ...e.target,
-                value: formattedValue,
-            },
-        };
+        return result;
+    };
 
-        setInputValue(formattedValue);
-        onChange(syntheticEvent as ChangeEvent<HTMLInputElement>);
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const input = e.target;
+        const cursorPosition = input.selectionStart || 0;
+        const currentValue = input.value;
+
+        const isAddition = currentValue.length > inputValue.length;
+
+        const firstDigitPos = mask.indexOf("9");
+
+        if (
+            !isAddition &&
+            cursorPosition <= firstDigitPos &&
+            firstDigitPos > 0
+        ) {
+            setInputValue(inputValue);
+
+            setTimeout(() => {
+                if (input) {
+                    input.setSelectionRange(firstDigitPos, firstDigitPos);
+                }
+            }, 0);
+
+            return;
+        }
+
+        const maskedValue = applyMask(currentValue);
+
+        setInputValue(maskedValue);
+        onChange(maskedValue);
     };
 
     return {

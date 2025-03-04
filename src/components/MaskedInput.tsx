@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useRef } from "react";
 import { useMaskedInput } from "../hooks/useMaskedInput";
 
 interface MaskedInputProps {
@@ -22,14 +22,28 @@ export const MaskedInput: React.FC<MaskedInputProps> = ({
     placeholder,
     className,
 }) => {
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    const valueToEventAdapter = (value: string) => {
+        const syntheticEvent = {
+            target: {
+                value,
+                name: name || "",
+            },
+        } as ChangeEvent<HTMLInputElement>;
+
+        onChange(syntheticEvent);
+    };
+
     const { inputValue, handleChange } = useMaskedInput({
         mask,
         value,
-        onChange,
+        onChange: valueToEventAdapter,
     });
 
     return (
         <input
+            ref={inputRef}
             type="text"
             id={id}
             name={name}
