@@ -1,0 +1,147 @@
+.employee-list {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    .filters {
+        display: flex;
+        gap: 2rem;
+        margin-bottom: 2rem;
+        padding: 1rem;
+        background: #f5f5f5;
+        border-radius: 8px;
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+
+            label {
+                color: #666;
+                font-weight: 500;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            select {
+                padding: 0.5rem;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                background: white;
+            }
+
+            input[type="checkbox"] {
+                width: 18px;
+                height: 18px;
+            }
+        }
+    }
+
+    .sort-buttons {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+
+        button {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+
+            &:hover {
+                background: #f5f5f5;
+            }
+
+            &.active {
+                background: #4a90e2;
+                color: white;
+                border-color: #4a90e2;
+            }
+        }
+    }
+
+    .employee-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+
+        .employee-card {
+            padding: 1.5rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            }
+
+            h3 {
+                margin: 0 0 1rem 0;
+                color: #333;
+            }
+
+            p {
+                margin: 0.5rem 0;
+                color: #666;
+            }
+
+            &.archived {
+                opacity: 0.7;
+                background: #f9f9f9;
+
+                .archive-badge {
+                    position: absolute;
+                    top: 1rem;
+                    right: 1rem;
+                    padding: 0.25rem 0.5rem;
+                    background: #ff4444;
+                    color: white;
+                    border-radius: 4px;
+                    font-size: 0.875rem;
+                }
+            }
+        }
+    }
+
+    .add-employee-btn {
+        display: block;
+        width: 100%;
+        max-width: 300px;
+        margin: 2rem auto;
+        padding: 1rem;
+        background: #4a90e2;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+
+        &:hover {
+            background: #357abd;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .employee-list {
+        padding: 1rem;
+
+        .filters {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .sort-buttons {
+            flex-direction: column;
+        }
+    }
+}

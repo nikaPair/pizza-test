@@ -1,25 +1,53 @@
-import React from 'react';
-import logo from './assets/icons/logo.svg';
-import {SApp, SHeader, SLink, SLogo} from "./assets/styles/app.styles";
+import React from "react";
+import {
+    BrowserRouter as Router,
+    Routes,
+    Route,
+    Navigate,
+} from "react-router-dom";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
+import { EmployeeList } from "./components/EmployeeList";
+import { EmployeeForm } from "./components/EmployeeForm";
+import "./App.scss";
 
-function App() {
+const App: React.FC = () => {
     return (
-        <SApp>
-            <SHeader>
-                <SLogo src={logo} alt="logo"/>
-                <p>
-                    Edit <code>src/App.tsx</code> and save to reload.
-                </p>
-                <SLink
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Learn React
-                </SLink>
-            </SHeader>
-        </SApp>
+        <Provider store={store}>
+            <Router>
+                <div className="app">
+                    <header className="app-header">
+                        <h1>Управление сотрудниками</h1>
+                    </header>
+                    <main className="app-main">
+                        <Routes>
+                            <Route path="/" element={<EmployeeList />} />
+                            <Route
+                                path="/employee/new"
+                                element={
+                                    <EmployeeForm
+                                        onClose={() => window.history.back()}
+                                    />
+                                }
+                            />
+                            <Route
+                                path="/employee/:id"
+                                element={
+                                    <EmployeeForm
+                                        onClose={() => window.history.back()}
+                                    />
+                                }
+                            />
+                            <Route
+                                path="*"
+                                element={<Navigate to="/" replace />}
+                            />
+                        </Routes>
+                    </main>
+                </div>
+            </Router>
+        </Provider>
     );
-}
+};
 
 export default App;
