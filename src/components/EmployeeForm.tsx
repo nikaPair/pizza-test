@@ -1,4 +1,4 @@
-import React, { FormEvent } from "react";
+import React from "react";
 import { MaskedInput } from "./MaskedInput";
 import { useEmployeeForm } from "../hooks/useEmployeeForm";
 import "../styles/EmployeeForm.scss";

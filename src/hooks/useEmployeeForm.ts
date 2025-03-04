@@ -33,7 +33,6 @@ export const useEmployeeForm = (onClose: () => void) => {
                 const { id: _, ...employeeData } = foundEmployee;
                 setFormData(employeeData);
             } else {
-                // Если сотрудник не найден, перенаправляем на главную
                 navigate("/");
             }
         }
