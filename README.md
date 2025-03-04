@@ -46,4 +46,4 @@ npm run build
 
 ## Демо
 
-Демо-версия приложения доступна по адресу: [https://nikaPair.github.io/pizza-test](https://nikaPair.github.io/pizza-test)
+Демо-версия приложения доступна по адресу: [https://nikaPair.github.io/pizza-test](https://nikaPair.github.io/pizza-test/)
