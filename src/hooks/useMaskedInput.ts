@@ -20,11 +20,9 @@ export const useMaskedInput = ({
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const val = e.target.value;
 
-        // Если пользователь удаляет символы, просто обновляем значение
         if (val.length < inputValue.length) {
             setInputValue(val);
 
-            // Создаем синтетическое событие
             const syntheticEvent = {
                 ...e,
                 target: {
